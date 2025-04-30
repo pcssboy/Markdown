@@ -43,9 +43,9 @@
 ##二，链接语法：
 [超链接](https://github.com/pcssboy/markdown/)
 
-![图片链接]([https://github.com/pcssboy/HG/blob/main/favicon-64x64.png](https://github.com/pcssboy/HG/blob/main/favicon-64x64.png))
+![图片链接](https://github.com/pcssboy/HG/blob/main/favicon-64x64.png)
 
-~~<img src="https://github.com/pcssboy/Markdown/blob/main/logo.png" alt="图片" width="200px" height="200px">~~
+~~<img src="https://github.com/pcssboy/HG/blob/main/favicon-64x64.png" alt="图片" width="100px" height="100px">~~
 
 ------------
 ##三，高亮语法：
@@ -188,5 +188,5 @@ public class HelloWorld{
 
 在兴趣的驱动下,写一个免费的东西，有欣喜，更多的是汗水，希望你们喜欢我的作品，同时也能支持一下。 当然，有钱捧个钱场（支付宝扫描下面的二维码），没钱捧个人场，谢谢各位。
 
-![啊哦！这二维码被偷吃了，请通过QQ或邮件和我联系](https://github.com/pcssboy/Markdown/blob/main/logo.png)
+![啊哦！这二维码被偷吃了，请通过QQ或邮件和我联系](https://github.com/pcssboy/HG/blob/main/zfb.png)
 		
