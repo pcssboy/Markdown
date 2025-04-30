@@ -43,7 +43,7 @@
 ##二，链接语法：
 [超链接](https://github.com/pcssboy/markdown/)
 
-![图片链接](https://github.com/pcssboy/Markdown/blob/main/logo.png)
+![图片链接]([https://github.com/pcssboy/Markdown/blob/main/logo.png](https://github.com/pcssboy/HG/blob/main/favicon-64x64.png))
 
 ~~<img src="https://github.com/pcssboy/Markdown/blob/main/logo.png" alt="图片" width="200px" height="200px">~~
 
