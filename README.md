@@ -45,7 +45,7 @@
 
 ![图片链接](https://github.com/pcssboy/HG/blob/main/favicon-64x64.png)
 
-~~<img src="https://github.com/pcssboy/HG/blob/main/favicon-64x64.png" alt="图片" width="100px" height="100px">~~
+~~<img src="https://github.com/pcssboy/HG/blob/main/favicon-64x64.png" alt="图片" width="64px" height="64px">~~
 
 ------------
 ##三，高亮语法：
