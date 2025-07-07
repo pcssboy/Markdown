@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- 基本元数据 -->
+    <meta charset="UTF-8">  <!-- 设置字符编码为UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">  <!-- 响应式设计，适配移动设备 -->
+    <title>Honge's Markdown在线编辑器</title>  <!-- 页面标题 -->
+    
+    <!-- 网站图标 -->
+    <link rel="shortcut icon" href="./images/favicon.ico">  <!-- 网站favicon图标 -->
+    
+    <!-- 引入CSS样式表 -->
+    <link rel="stylesheet" href="css/editormd.min.css">  <!-- Markdown编辑器样式 -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">  <!-- Bootstrap框架样式 -->
+    <link rel="stylesheet" href="css/editor.css">  <!-- 自定义编辑器样式 -->
+    
+    <!-- 引入JavaScript库 -->
+    <script src="js/jquery-3.3.1.min.js"></script>  <!-- jQuery库 -->
+    <script src="js/bootstrap.min.js"></script>  <!-- Bootstrap JavaScript功能 -->
+    <script src="js/editormd.min.js"></script>  <!-- Markdown编辑器功能 -->
+</head>
+
+<!-- 内联CSS样式 -->
+<style>
+    .editormd {
+        border: none;  /* 移除编辑器边框 */
+        border-radius: 8px;  /* 添加圆角 */
+    }
+</style>
+
+<!-- 页面主体 -->
+<body class="baitian">  <!-- 默认使用白天主题 -->
+<div class="container-fluid">  <!-- Bootstrap流体容器 -->
+    <div class="row home">  <!-- 第一行：标题和GitHub链接 -->
+        <!-- 主标题和logo -->
+        <h1><b><a href="./MD/demo.html"><p><img src="images/markdown.png">编辑器&语法指南</a></b></h1>
+        <!-- GitHub链接 -->
+        <h1 class="pull-right" style="margin-right: 50px"><a href="https://github.com/pcssboy/markdown/"><span class="fa fa-github"></span></a></h1>
+    </div>
+    
+    <!-- 设置面板 -->
+    <div class="setting">
+        <!-- 设置图标 -->
+        <span class="glyphicon glyphicon-edit" style="color: #f9f9f9; font-size: 30px; padding: 13px;"></span>
+        
+        <!-- 设置内容区域 -->
+        <div class="writeHelp" id="writeHelp">
+            <h4 class="text-center"><span class="glyphicon glyphicon-cog"></span> 设置</h4>
+            
+            <!-- 主题选择 -->
+            <div class="form-group" style="margin-bottom: 30px">
+                <label>主题</label>
+                <div class="btn-group" data-toggle="buttons">
+                    <!-- 白天主题按钮 -->
+                    <label class="btn btn-default active" onclick="chooseTheme('sun');">
+                        <input type="radio" name="options" id="sun" autocomplete="off" checked><span class="fa fa-sun-o"></span>
+                    </label>
+                    <!-- 黑夜主题按钮 -->
+                    <label class="btn btn-default" onclick="chooseTheme('moon')">
+                        <input type="radio" name="options" id="moon" autocomplete="off"><span class="fa fa-moon-o"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- 文章标题输入 -->
+            <div class="form-group">
+                <label for="title">文章标题</label>
+                <input type="text" class="form-control" id="title">
+            </div>
+            
+            <!-- 文章分类选择 -->
+            <div class="form-group">
+                <label for="sort">文章分类</label>
+                <select class="form-control" id="sort">
+                    <option value="JAVA">JAVA</option>
+                    <option value="C++">C++</option>
+                    <option value="生活">生活</option>
+                    <option value="随笔">随笔</option>
+                </select>
+            </div>
+            
+            <!-- 自定义分类 -->
+            <div class="input-group" style="margin-bottom: 15px;">
+                <input type="text" name="newSort" class="form-control" placeholder="自定义分类">
+                <span class="input-group-btn"><button class="btn btn-default" type="button" onclick="newSort()">确定</button></span>
+            </div>
+            
+            <!-- 操作按钮 -->
+            <div>
+                <button type="button" class="btn btn-primary" id="save" onclick="savelocal();"><span class="glyphicon glyphicon-floppy-saved"></span> 保存草稿</button>
+                <button type="button" class="btn btn-info" id="caogao" onclick="openCaogao();"><span class="glyphicon glyphicon-duplicate"></span> 草稿管理</button>
+            </div>
+            
+            <!-- 帮助链接 -->
+            <div style="padding-bottom: 20px; margin-top: 50px" class="text-center">
+                <a href="javascript:$.proxy(editor.toolbarHandlers.help, editor)();"><span>Markdown使用帮助</span></a>
+            </div>
+            
+            <!-- 发布按钮 -->
+            <div class="btn-group pull-right" role="group">
+                <button type="button" class="btn btn-default" id="share"><span class="fa fa-paper-plane"></span> 发布</button>
+            </div>
+        </div>
+        
+        <!-- 草稿管理区域 -->
+        <div class="writeCaogao" id="writeCaogao">
+            <h4 class="text-center"><span class="glyphicon glyphicon-duplicate"></span> 草稿管理</h4>
+            <div class="table-responsive" style="height: 380px">
+                <table class="table table-hover">
+                    <tr>
+                        <th></th>
+                        <th>标题</th>
+                        <th>分类</th>
+                        <th>时间</th>
+                        <th><btton class="btn btn-danger btn-sm" onclick="delAll()"><span class="fa fa-trash"> </span> 清空</btton></th>
+                    </tr>
+                    <tbody></tbody>
+                </table>
+                <span class="fa fa-spinner fa-spin fa-2x" id="loading" style="padding: 0px 130px"></span>
+            </div>
+            <div class="pull-right">
+                <button type="button" class="btn btn-default" id="Cexit" onclick="Cexit()"><span class="glyphicon glyphicon-arrow-right"></span> 返回</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 编辑器区域 -->
+    <div class="row">
+        <div class="col-sm-8 col-sm-offset-2 col-xs-12 editor">
+            <div id="editormd">
+                <textarea style="display:none;"></textarea>  <!-- Markdown编辑器实际使用的textarea -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 页脚 -->
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <p class="text-center">
+                Copyright&nbsp;&copy;&nbsp;2002
+                <script>
+                    document.write(' - ' + (new Date()).getFullYear())  <!-- 动态显示当前年份 -->
+                </script>&nbsp;<a href="https://icon-sets.iconify.design/">iCon</a>&nbsp;&amp;&nbsp;
+                Made&nbsp;by&nbsp;<a href="http://vske.top:88/" target="_blank"><span class="fa fa-user" style="color: #f15534;"></span>   宏哥网络工作室</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- 提示模态框 -->
+<div class="modal fade" tabindex="-1" id="myModel">
+    <div class="modal-dialog modal-sm" style="top: 300px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h5 class="modal-title">提示</h5>
+            </div>
+            <div class="modal-body">
+                <p id="modalBody"></p>  <!-- 提示内容动态插入位置 -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<!-- JavaScript功能实现 -->
+<script>
+    var editor;  // 全局编辑器变量
+    
+    // 页面加载完成后执行
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();  // 初始化工具提示
+
+        // 配置并初始化Markdown编辑器
+        editor = editormd({
+            id: "editormd",  // 编辑器容器ID
+            path: "editor/lib/",  // 依赖库路径
+            // 定义工具栏图标
+            toolbarIcons: function () {
+                return [
+                    "undo", "redo", "|", 
+                    "bold", "del", "italic", "quote", "ucwords", "uppercase", "lowercase", "|", 
+                    "h1", "h2", "h3", "h4", "h5", "h6", "|", 
+                    "list-ul", "list-ol", "hr", "|", 
+                    "link", "reference-link", "image", "code", "preformatted-text", "code-block", "table", "datetime", "emoji", "html-entities", "pagebreak", "|", 
+                    "goto-line", "clear", "search", "||", 
+                    "watch", "preview", "fullscreen"
+                ]
+            },
+        });
+    });
+
+    /**
+     * 切换编辑器主题
+     * @param {string} o - 主题类型 ('sun' 或 'moon')
+     */
+    function chooseTheme(o) {
+        if (o == 'moon') {
+            // 设置黑夜主题
+            editor.setTheme('dark');
+            editor.setCodeMirrorTheme('lesser-dark');
+            editor.setPreviewTheme('dark');
+            $('body').attr('class', 'heiye');  // 修改body类名
+        }
+        else {
+            // 设置白天主题
+            editor.setTheme('default');
+            editor.setCodeMirrorTheme('default');
+            editor.setPreviewTheme('default');
+            $('body').attr('class', 'baitian');  // 修改body类名
+        }
+    }
+
+    /**
+     * 打开提示模态框
+     * @param {string} message - 要显示的消息内容
+     */
+    function openalert(message) {
+        $('#modalBody').html(message);  // 设置消息内容
+        $('#myModel').modal();  // 显示模态框
+    }
+
+    /**
+     * 将当前编辑内容保存到本地存储
+     */
+    function savelocal() {
+        var number;
+        // 获取或初始化存储序号
+        if (localStorage.getItem('number') == null) {
+            number = 1;
+        } else {
+            number = parseInt(localStorage.getItem('number')) + 1;
+        }
+        
+        // 获取编辑器内容和其他信息
+        var source = editor.getMarkdown();
+        var title = $('#title').val().substring(0, 4);  // 截取前4个字符作为标题
+        var sort = $('#sort').val();
+        var date = new Date();
+        date = date.getFullYear() + '-' + (date.getMonth()+1) + '-' + date.getDate();
+        
+        // 构建文章数据对象
+        var articleDate = {title:title, sort:sort, date:date, source:source};
+        var key = 'articleDate' + '_' + number;
+        
+        // 保存到本地存储
+        window.localStorage.setItem(key, JSON.stringify(articleDate));
+        
+        // 检查保存是否成功并提示
+        if (localStorage.getItem(key) == null) {
+            openalert('保存失败请重试');
+        } else {
+            localStorage.setItem('number', number);  // 更新序号
+            openalert('保存成功！');
+        }
+    }
+
+    /**
+     * 从本地存储读取草稿列表
+     */
+    function getlocal() {
+        // 检查是否有草稿存在
+        if (localStorage.getItem('number') != null && localStorage.getItem('number') != localStorage.getItem('remove')) {
+            var key = 'articleDate';
+            var number = parseInt(localStorage.getItem('number'));
+            var temp, articleDate;
+            
+            // 遍历所有草稿
+            for (var i = 1; i <= number; i++) {
+                temp = localStorage.getItem(key + '_' + i);
+                if (temp != null) {
+                    articleDate = JSON.parse(temp);
+                    // 将草稿添加到表格中
+                    $('#writeCaogao table tbody:eq(1)').append(
+                        '<tr><td>' + i + '</td><td>' + articleDate.title + '</td><td>' + 
+                        articleDate.sort + '</td><td>' + articleDate.date + '</td><td class="text-center">' +
+                        '<a data-toggle="tooltip" data-placement="left" href="javascript:(0)" title="删除" onclick="delCg(this)">' +
+                        '<span class="fa fa-remove"> </span></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
+                        '<a data-toggle="tooltip" data-placement="left" href="javascript:(0)" title="编辑" onclick="editorCg(this)">' +
+                        '<span class="fa fa-file-text-o"> </span></a></td></tr>'
+                    )
+                }
+            }
+            $('#loading').remove();  // 移除加载动画
+        }
+    }
+
+    /**
+     * 打开草稿管理面板
+     */
+    function openCaogao() {
+        $('#writeHelp').css("display", "none");  // 隐藏设置面板
+        $('#writeCaogao').slideDown(300);  // 显示草稿面板
+        $('#writeCaogao table tbody:eq(1)').html(' ');  // 清空表格
+        getlocal();  // 加载草稿列表
+        $("[data-toggle='tooltip']").tooltip();  // 初始化工具提示
+    }
+    
+    /**
+     * 退出草稿管理面板
+     */
+    function Cexit() {
+        $('#writeCaogao').css('display', 'none');  // 隐藏草稿面板
+        $('#writeHelp').css('display', 'block');  // 显示设置面板
+    }
+
+    /**
+     * 删除单个草稿
+     * @param {object} obj - 被点击的删除按钮对象
+     */
+    function delCg(obj) {
+        var remove;
+        // 获取已删除草稿计数
+        if (localStorage.getItem('remove') == null) {
+            remove = 0;
+        } else  {
+            remove = parseInt(localStorage.getItem('remove'));
+        }
+        
+        // 获取要删除的草稿ID
+        var id = $(obj).parent().parent().children().eq(0).text();
+        var key = 'articleDate' + '_' + id;
+        
+        // 从本地存储删除
+        localStorage.removeItem(key);
+        $(obj).parent().parent().remove();  // 从表格中移除
+        
+        // 更新删除计数
+        if (localStorage.getItem(key) == null) {
+            remove++;
+            if (localStorage.getItem('number') == remove) {
+                // 如果所有草稿都已删除，清除计数
+                localStorage.removeItem('number');
+                localStorage.removeItem('remove');
+            }
+            else {
+                localStorage.setItem('remove', remove);
+            }
+        }
+    }
+
+    /**
+     * 清空所有草稿
+     */
+    function delAll() {
+        localStorage.clear();  // 清除所有本地存储
+        $('#writeCaogao table tbody:eq(1)').html(' ');  // 清空表格
+    }
+    
+    /**
+     * 编辑草稿
+     * @param {object} o - 被点击的编辑按钮对象
+     */
+    function editorCg(o) {
+        // 获取草稿ID
+        var id = $(o).parent().parent().children().eq(0).text();
+        // 从本地存储获取草稿内容
+        var temp = JSON.parse(localStorage.getItem('articleDate' + '_' + id));
+        
+        // 将草稿内容填充到编辑器
+        var title = temp.title;
+        var sort = temp.sort;
+        var source = temp.source;
+        $('#title').val(title);
+        $('#sort').val(sort);
+        editor.setMarkdown(source);
+        
+        // 返回设置面板
+        Cexit();
+    }
+
+    /**
+     * 添加新的分类选项
+     */
+    function newSort() {
+        // 获取输入的新分类名称并添加到下拉列表
+        var newSortValue = $('input[name=newSort]').val();
+        $('#sort').prepend('<option value="' + newSortValue + '" selected="selected">' + newSortValue + '</option>');
+    }
+</script>
+</html>

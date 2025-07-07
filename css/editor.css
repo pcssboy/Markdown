@@ -1,0 +1,145 @@
+/* 设置 body 元素的最小宽度和高度 */
+body {
+    min-width: 360px;  /* 页面最小宽度为 360px（适配移动设备） */
+    min-height: 1000px; /* 页面最小高度为 949px */
+}
+
+/* 白天主题样式 */
+.baitian {
+    /* 渐变背景色 - 添加多个相同声明是为了不同浏览器的兼容性 */
+    background: linear-gradient(to bottom, #8767cf, #348ac7); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to bottom, #8767cf, #348ac7); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to bottom, #8767cf, #348ac7); /* 重复声明确保兼容性 */
+}
+
+/* 黑夜主题样式 */
+.heiye {
+    background: #1e1e1e; /* 纯黑色背景 */
+}
+
+/* 首页头部区域样式 */
+.home {
+    padding: 40px 0 30px 50px; /* 上 40px, 左右 0, 下 30px, 左 50px 的内边距 */
+}
+
+/* 首页标题样式 */
+.home h1, h3 {
+    display: inline-block; /* 使 h1 和 h3 元素并排显示 */
+}
+
+.home h3 {
+    margin-left: 10px; /* h3 元素左边距 10px */
+}
+
+/* 小标题样式 */
+h3 small {
+    color: #f4eff7; /* 浅紫色文字 */
+}
+
+/* 首页链接样式 */
+.home a, 
+.home a:hover, 
+.home a:active {
+    text-decoration: none; /* 去除下划线 */
+    color: #ffffff; /* 白色文字 */
+}
+
+/* 编辑器区域样式 */
+.editor {
+    height: 980px; /* 固定高度 780px */
+}
+
+/* 设置按钮动画效果 */
+@keyframes settingframes {
+    50% {
+        background: #c18ce7 /* 动画中间状态背景色 */
+    }
+    100% {
+        background: #ffffff /* 动画结束状态背景色 */
+    }
+}
+
+/* 设置面板容器样式 */
+.setting {
+    position: fixed; /* 固定定位 */
+    z-index: 1000; /* 较高的堆叠顺序 */
+    bottom: 50px; /* 距离底部 50px */
+    left: 50px; /* 距离左侧 50px */
+    width: 56px; /* 初始宽度 */
+    height: 56px; /* 初始高度 */
+    border-radius: 28px; /* 圆形边框半径 (56px/2) */
+    background: #54dee7; /* 浅蓝色背景 */
+    /* 过渡效果：宽度、高度、背景、圆角、位置变化时有0.3秒延迟的0.2秒过渡 */
+    transition: width 0.2s 0.3s, height 0.2s 0.3s, background 0.2s 0.3s, border-radius 0.1s 0.3s, left 0.3s;
+    overflow: hidden; /* 隐藏溢出内容 */
+}
+
+/* 设置帮助面板样式 */
+.writeHelp {
+    position: absolute; /* 绝对定位 */
+    z-index: 1100; /* 比容器更高的堆叠顺序 */
+    top: 0px; /* 顶部对齐 */
+    left: 0px; /* 左侧对齐 */
+    width: 300px; /* 宽度 */
+    height: 500px; /* 高度 */
+    opacity: 0; /* 初始完全透明 */
+    /* 透明度变化过渡效果，有0.55秒延迟的0.1秒过渡 */
+    transition: opacity 0.1s 0.55s;
+}
+
+/* 草稿管理面板样式 */
+.writeCaogao {
+    position: absolute; /* 绝对定位 */
+    z-index: 1100; /* 堆叠顺序 */
+    top: 0px; /* 顶部对齐 */
+    left: 0px; /* 左侧对齐 */
+    width: 300px; /* 宽度 */
+    height: 500px; /* 高度 */
+    display: none; /* 初始隐藏 */
+}
+
+/* 鼠标悬停时显示设置帮助面板 */
+.writeHelp:hover {
+    opacity: 1; /* 完全不透明 */
+}
+
+/* 鼠标悬停时设置面板的样式变化 */
+.setting:hover {
+    left: 30px; /* 向左移动20px (从50px变为30px) */
+    width: 300px; /* 宽度扩大 */
+    height: 500px; /* 高度增加 */
+    border-radius: 10px; /* 圆角变小 */
+    background: #f9f9f9; /* 背景变为浅灰色 */
+}
+
+/* 面板标题样式 */
+.writeHelp h4, 
+.writeCaogao h4 {
+    font-weight: bold; /* 加粗 */
+    padding-bottom: 15px; /* 下内边距 */
+    color: #f9825f; /* 橙色文字 */
+}
+
+/* 面板内容区域样式 */
+.writeHelp div, 
+.writeCaogao div:last-child {
+    padding: 0 30px; /* 左右内边距30px */
+}
+
+/* 页脚样式 */
+.footer {
+    background: #e5e5e5; /* 浅灰色背景 */
+    margin-top: 100px; /* 上外边距 */
+    padding-top: 15px; /* 上内边距 */
+}
+
+/* 响应式设计 - 屏幕宽度小于768px时的样式 */
+@media screen and (max-width: 768px) {
+    .home {
+        padding: 0px; /* 移除内边距 */
+    }
+    
+    .editor {
+        height: 660px; /* 减小编辑器高度 */
+    }
+}
